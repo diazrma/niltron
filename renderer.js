@@ -3,21 +3,19 @@ const searchBtn = document.getElementById('searchBtn');
 const searchInput = document.getElementById('searchInput');
 const backBtn = document.getElementById('backBtn');
 const forwardBtn = document.getElementById('forwardBtn');
-
 const intro = document.getElementById('intro');
+const webview = document.querySelector('webview');
 
-const webview = document.querySelector('webview')
 webview.addEventListener('dom-ready', () => {
 
-    // webview.openDevTools()
     const searchBtnAct = () => {
         search();
 
     }
     const searchInputAct = (e) => {
+
         if (e.keyCode === 13) {
-            searchInput
-            console.log('input')
+            e.preventDefault();
             search();
         }
 
@@ -35,7 +33,7 @@ webview.addEventListener('dom-ready', () => {
         }
     }
     searchBtn.addEventListener('click', searchBtnAct);
-    searchInput.addEventListener('keydow', searchInputAct);
+    searchInput.addEventListener('keyup', searchInputAct);
 
 
     const reload = () => {

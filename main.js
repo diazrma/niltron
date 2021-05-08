@@ -1,5 +1,4 @@
 const { app, BrowserWindow, globalShortcut, Menu, MenuItem } = require('electron');
-const { ipcMain } = require('electron');
 
 const path = require('path');
 const createWindow = () => {
@@ -13,12 +12,63 @@ const createWindow = () => {
             slashes: true,
             nodeIntegration: true,
             contextIsolation: false,
+            frame: false,
         }
     });
     win.maximize();
     win.setMenuBarVisibility(false);
-    //win.webContents.openDevTools();
     win.loadFile('index.html');
+    globalShortcut.register('Alt+CommandOrControl+I', () => {
+        win.webContents.openDevTools();
+    });
+
+
+    var menu = new Menu();
+
+    //Basic Menu For Testing
+    menu.append(new MenuItem({
+        label: 'Voltar',
+        click: function() {
+
+        }
+    }));
+
+    menu.append(new MenuItem({
+        label: 'Avançar',
+        click: function() {
+
+
+        }
+    }));
+    menu.append(new MenuItem({
+        label: 'Recarregar',
+        click: function() {
+
+        }
+    }));
+    menu.append(new MenuItem({ type: 'separator' }));
+    menu.append(new MenuItem({
+        label: 'Inspecionar Elemento    CRTL+SHIFT+I',
+        click: function() {
+            win.webContents.openDevTools();
+        }
+    }));
+    menu.append(new MenuItem({
+        label: 'Sair',
+        click: function() {
+            win.close();
+
+        }
+    }));
+
+    app.on("web-contents-created", (...[ /* event */ , webContents]) => {
+        webContents.on("context-menu", (event, click) => {
+            event.preventDefault();
+            menu.popup(webContents);
+        }, false);
+    });
+
+
 
 }
 
